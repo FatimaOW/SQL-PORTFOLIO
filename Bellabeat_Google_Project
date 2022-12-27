@@ -1,0 +1,33 @@
+-- To find how many rows of data we would be working with in the daily_activity data.
+SELECT COUNT(*)
+FROM fatimas-first-sandbox-project.fitbit_dataset.daily_activity
+
+-- To find the total number of participant Id's in the daily_activity data
+SELECT COUNT(DISTINCT(Id))
+FROM fatimas-first-sandbox-project.fitbit_dataset.daily_activity
+
+-- To find the minimum and maximum distances covered by participants and the dates these distances were covered.
+SELECT ActivityDate, MIN(TotalDistance) AS Min_distance, MAX(TotalDistance) AS Max_distance
+FROM fatimas-first-sandbox-project.fitbit_dataset.daily_activity
+GROUP BY ActivityDate
+
+
+-- Classifying the amount of steps each participant took.
+SELECT Id, AVG(TotalSteps) AS Avg_Steps,
+ CASE 
+  WHEN TotalSteps < 5000 THEN "SEDENTARY"
+   WHEN TotalSteps BETWEEN 5000 AND 7499 THEN "LOW ACTIVE"
+   WHEN TotalSteps BETWEEN 7500 AND 9999 THEN "SOMEWHAT ACTIVE"
+   WHEN TotalSteps BETWEEN 10000 AND 12499 THEN "ACTIVE"
+   ELSE "HIGHLY ACTIVE"
+   END AS ActivityClass
+FROM fatimas-first-sandbox-project.fitbit_dataset.daily_activity
+GROUP BY Id, TotalSteps
+
+
+-- Joining the daily_activity table to the weightlog_info table to show the relationship between the amount of calories burnt by a participant and the steps taken
+SELECT calorieslog.Id, AVG(calorieslog.Calories) AS Avg_Calories, AVG(stepslog.StepTotal) AS Avg_steps
+FROM fatimas-first-sandbox-project.fitbit_dataset.daily_calories AS calorieslog
+JOIN fatimas-first-sandbox-project.fitbit_dataset.daily_steps AS stepslog
+ON calorieslog.Id = stepslog.Id
+GROUP BY Id
