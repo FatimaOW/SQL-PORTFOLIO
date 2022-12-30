@@ -39,3 +39,5 @@ FROM fatimas-first-sandbox-project.COVID.covid_deaths deaths
 JOIN fatimas-first-sandbox-project.COVID.covid_vaccinations vaccs
 ON deaths.location = vaccs.location
 WHERE deaths.location in ('Canada', 'Mexico', 'France', 'Dominica Republic', 'Costa Rica', 'United States', 'Jamaica', 'Italy', 'Bahamas') and vaccs.total_vaccinations is not NULL
+
+Link to visualization on Tableau: https://public.tableau.com/app/profile/fatima4889/viz/Covid-19Project_16723753149760/Dashboard1
