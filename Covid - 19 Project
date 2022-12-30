@@ -1,0 +1,41 @@
+-- Total countries listed in data without repetitions
+
+SELECT DISTINCT(location)
+FROM fatimas-first-sandbox-project.COVID.covid_deaths
+
+-- Data we would be focusing on from table
+
+SELECT location, total_cases, new_cases, total_deaths, population
+FROM fatimas-first-sandbox-project.COVID.covid_deaths
+WHERE continent is not null
+ORDER BY location
+
+-- Data showing the total cases, total deaths and death percentage in Canada.
+
+SELECT location, date, total_Cases, total_Deaths, (total_deaths/total_cases) * 100 as death_percentage
+FROM fatimas-first-sandbox-project.COVID.covid_deaths
+WHERE location LIKE '%Canada%' 
+ORDER BY location
+
+-- Data showing percentage of the population that was infected with COVID in Canada
+
+SELECT location, population, total_cases, (total_cases/population) * 100 as Percent_infected
+FROM fatimas-first-sandbox-project.COVID.covid_deaths
+WHERE location LIKE '%Canada%'
+ORDER BY location
+
+-- Data showing countries wth the highest infection rate when compared to the population
+
+SELECT location, MAX(total_Cases) AS highest_infectedcontinents, MAX(total_cases/population) * 100 as percent_populationinfected
+FROM fatimas-first-sandbox-project.COVID.covid_deaths
+WHERE continent is NULL and location not in ('European Union', 'World', 'International')
+GROUP BY location
+ORDER BY percent_populationinfected DESC
+
+-- Joining the covid_vaccination table to the covid_death table to compare the number of total vaccinations given to the population in Canada and some countries Canadians like to visit the most
+
+SELECT deaths.location, deaths.population, vaccs.total_vaccinations
+FROM fatimas-first-sandbox-project.COVID.covid_deaths deaths
+JOIN fatimas-first-sandbox-project.COVID.covid_vaccinations vaccs
+ON deaths.location = vaccs.location
+WHERE deaths.location in ('Canada', 'Mexico', 'France', 'Dominica Republic', 'Costa Rica', 'United States', 'Jamaica', 'Italy', 'Bahamas') and vaccs.total_vaccinations is not NULL
