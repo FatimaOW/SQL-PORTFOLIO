@@ -32,4 +32,3 @@ JOIN fatimas-first-sandbox-project.fitbit_dataset.daily_steps AS stepslog
 ON calorieslog.Id = stepslog.Id
 GROUP BY Id
 
-link to visualization on Tableau: https://public.tableau.com/app/profile/fatima4889/viz/BellabeatCapstoneProjectVizualization/Dashboard1
