@@ -10,7 +10,7 @@ FROM fatimas-first-sandbox-project.Pizza_Sales.Orders sales
 JOIN fatimas-first-sandbox-project.Pizza_Sales.Order_Details details
 ON sales.order_id = details.order_id
 GROUP BY order_id, date, time, quantity
-ORDER BY quantity DESC
+ORDER BY quantity 
 
 -- The amount of pizzas typically requested in an order
 SELECT sales.order_id, details.order_details_id, sales.date,  details.quantity
@@ -29,6 +29,14 @@ FROM  fatimas-first-sandbox-project.Pizza_Sales.Order_Details details
 JOIN  fatimas-first-sandbox-project.Pizza_Sales.Pizzas pizzas
 ON pizzas.pizza_id = details.pizza_id
 
+--To know if there are any seasonality in sales
+SELECT (pizzas.price * details.quantity) AS Revenue, sales.date
+FROM fatimas-first-sandbox-project.Pizza_Sales.Order_Details details
+JOIN fatimas-first-sandbox-project.Pizza_Sales.Pizzas pizzas
+ON pizzas.pizza_id = details.pizza_id
+JOIN fatimas-first-sandbox-project.Pizza_Sales.Orders sales
+ON sales.order_id = details.order_id
+ORDER BY date
 
 -- To know which pizzas to take off the menu 
 SELECT order_id, order_Details_id, pizza_id, MIN(quantity) as Min_qty
