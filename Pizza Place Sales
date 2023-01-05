@@ -10,7 +10,7 @@ FROM fatimas-first-sandbox-project.Pizza_Sales.Orders sales
 JOIN fatimas-first-sandbox-project.Pizza_Sales.Order_Details details
 ON sales.order_id = details.order_id
 GROUP BY order_id, date, time, quantity
-ORDER BY quantity 
+ORDER BY quantity DESC
 
 -- The amount of pizzas typically requested in an order
 SELECT sales.order_id, details.order_details_id, sales.date,  details.quantity
